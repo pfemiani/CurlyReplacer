@@ -13,6 +13,7 @@ public static class CurlyReplacer
     public static IEnumerable<CurlyCapture> Parse(string input)
     {
         if (input is null) throw new ArgumentNullException(nameof(input));
+        if (!ContainsOpenToken(input)) yield break;
 
         int i = 0;
 
@@ -76,6 +77,7 @@ public static class CurlyReplacer
     private static string Replace(string input, Func<CurlyCapture, string> replacement)
     {
         if (input is null) throw new ArgumentNullException(nameof(input));
+        if (!ContainsOpenToken(input)) return input;
 
         var sb = new StringBuilder(input.Length);
         int cursor = 0;
@@ -99,4 +101,5 @@ public static class CurlyReplacer
 
     private static bool IsOpen(string s, int i) => s[i] == '{' && s[i + 1] == '{';
     private static bool IsClose(string s, int i) => s[i] == '}' && s[i + 1] == '}';
+    private static bool ContainsOpenToken(string s) => s.Length > 1 && s.IndexOf("{{", StringComparison.Ordinal) >= 0;
 }

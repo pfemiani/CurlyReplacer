@@ -33,6 +33,7 @@ Example:
 Behavior notes:
 - if the replacement delegate returns `null`, it is treated as an empty string
 - unmatched opening `{{` does not produce a capture and leaves trailing input unchanged
+- inputs with no `{{` token return quickly without capture/replacement work
 
 ## CurlyExpressionReplacer usage
 `CurlyExpressionReplacer` adds extension methods on `string`:
@@ -63,6 +64,11 @@ If a method call is not allowed by Dynamic LINQ, evaluation throws `InvalidOpera
 
 In this repository's sample program (`src/CurlyReplacer/Program.cs`), the context type is annotated with `[DynamicLinqType]` to allow calling:
 - `{{Test(1, 2, 3)}}`
+
+## Performance notes
+- `CurlyReplacer.Parse` and `CurlyReplacer.Replace` perform a fast check for `{{` and return immediately for non-template strings.
+- `CurlyExpressionReplacer` caches compiled Dynamic LINQ delegates by context type and expression text, so repeated expressions avoid repeated parse/compile overhead.
+- `ReplaceCurlyExpressions()` reuses a shared empty context object to avoid repeated per-call allocation.
 
 ## Running
 Build:
