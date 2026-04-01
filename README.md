@@ -49,8 +49,8 @@ You can reference context properties directly:
 - Output: `Hello Pete`
 
 You can also use composed expressions:
-- `{{FirstName + " " + LastName + " is " + Age}}`
-- `{{Age >= 21 ? "adult" : "minor"}}`
+- `{{FirstName + \" \" + LastName + \" is \" + Age}}`
+- `{{Age >= 21 ? \"adult\" : \"minor\"}}`
 
 ### Without context
 `ReplaceCurlyExpressions()` evaluates expressions using an empty context object.
